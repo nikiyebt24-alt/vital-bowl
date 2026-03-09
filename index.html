@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Vital Bowl</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:Arial;
+background-image:url("https://images.pexels.com/photos/3429783/pexels-photo-3429783.jpeg?auto=compress&cs=tinysrgb&w=1600");
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+}
+
+/* HEADER */
+header{
+display:flex;
+justify-content:space-between;
+padding:30px 60px;
+background:white;
+}
+
+.logo{
+font-size:40px;
+font-weight:bold;
+}
+
+nav a{
+margin-left:20px;
+text-decoration:none;
+color:black;
+font-weight:500;
+cursor:pointer;
+}
+
+/* HERO */
+
+.hero{
+text-align:center;
+padding:60px 20px;
+background:rgba(255,255,255,0.9);
+margin:40px 60px;
+border-radius:10px;
+}
+
+.hero h1{
+font-size:42px;
+margin-bottom:15px;
+}
+
+.hero p{
+font-size:18px;
+max-width:800px;
+margin:auto;
+line-height:1.6;
+}
+
+/* PRODUCTS */
+
+.products{
+display:flex;
+flex-wrap:wrap;
+gap:20px;
+padding:40px 60px;
+}
+
+.card{
+width:220px;
+height:200px;
+background-size:cover;
+background-position:center;
+border-radius:10px;
+padding:10px;
+color:white;
+text-decoration:none;
+font-weight:bold;
+position:relative;
+cursor:pointer;
+}
+
+.card div{
+background:rgba(0,0,0,0.5);
+padding:6px;
+border-radius:5px;
+position:absolute;
+bottom:10px;
+left:10px;
+}
+
+/* PRODUCT VIEW */
+#productView{
+display:none;
+padding:40px 60px;
+}
+
+.product-box{
+display:flex;
+gap:40px;
+background:white;
+padding:20px;
+}
+
+.product-box img{
+width:350px;
+height:300px;
+object-fit:cover;
+}
+
+button{
+padding:10px 20px;
+background:#1e73be;
+color:white;
+border:none;
+cursor:pointer;
+margin-top:10px;
+}
+
+/* CART + CHECKOUT */
+.section{
+display:none;
+background:white;
+padding:20px;
+margin:40px 60px;
+}
+
+input,textarea{
+display:block;
+margin:10px 0;
+padding:8px;
+width:300px;
+}
+
+label{
+display:block;
+margin:5px 0;
+}
+
+/* QUANTITY */
+
+.qty-control{
+display:flex;
+align-items:center;
+gap:12px;
+margin:12px 0;
+}
+
+.qty-btn{
+width:34px;
+height:34px;
+background:#1e73be;
+color:white;
+border:none;
+border-radius:50%;
+font-size:20px;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.qty-num{
+font-size:20px;
+font-weight:bold;
+min-width:30px;
+text-align:center;
+}
+
+/* FEEDBACK SIDEBAR */
+.feedback{
+position:fixed;
+right:0;
+top:50%;
+transform:translateY(-50%);
+background:white;
+padding:15px;
+border-radius:10px 0 0 10px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+text-align:center;
+z-index:1000;
+}
+
+.feedback button{
+display:block;
+margin:8px auto;
+font-size:20px;
+background:none;
+border:none;
+cursor:pointer;
+}
+
+/* ALL POPUPS SHARED */
+.overlay-popup{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:2000;
+}
+
+.popup-box{
+background:white;
+padding:30px;
+border-radius:10px;
+text-align:center;
+width:350px;
+}
+
+.popup-box h2{
+margin-bottom:10px;
+}
+
+.popup-box p{
+margin-bottom:5px;
+font-size:16px;
+}
+
+.popup-box button{
+margin-top:15px;
+}
+
+</style>
+</head>
+
+<body>
+<header>
+<div class="logo">
+VITAL<br>BOWL
+</div>
+
+<nav>
+<a onclick="showHome()">Shop</a>
+<a onclick="toggleCart()">Cart 🛒</a>
+<a onclick="showContact()">Contact Us</a>
+</nav>
+</header>
+
+<section class="hero">
+<h1>Welcome to Vital Bowl</h1>
+<p>
+Healthy bowls made with fresh ingredients to fuel your body. 
+From antioxidant smoothie bowls to protein-packed rice bowls, 
+Vital Bowl brings nutritious, delicious, and balanced meals 
+designed for a healthy lifestyle.
+</p>
+</section>
+
+<section class="products" id="home">
+
+<a class="card" onclick="openProduct('Acai Bowl',380,8,55,14,'High antioxidant acai bowl with fruits & granola','https://images.pexels.com/photos/14167805/pexels-photo-14167805.jpeg')" style="background-image:url('https://images.pexels.com/photos/14167805/pexels-photo-14167805.jpeg')">
+<div><b>Tropical Acai Bowl</b><br>380 kcal</div>
+</a>
+
+<a class="card" onclick="openProduct('Pitaya Bowl',340,7,50,10,'Dragon fruit bowl rich in vitamin C','https://images.pexels.com/photos/6546181/pexels-photo-6546181.jpeg')" style="background-image:url('https://images.pexels.com/photos/6546181/pexels-photo-6546181.jpeg')">
+<div><b>Pitaya Bowl</b><br>340 kcal</div>
+</a>
+
+<a class="card" onclick="openProduct('Mixed Berry Bowl',330,6,48,11,'Strawberries blueberries raspberries','https://images.pexels.com/photos/12909854/pexels-photo-12909854.jpeg')" style="background-image:url('https://images.pexels.com/photos/12909854/pexels-photo-12909854.jpeg')">
+<div><b>Mixed Berry Bowl</b><br>330 kcal</div>
+</a>
+
+<a class="card" onclick="openProduct('Peanut Butter Banana Bowl',420,12,45,18,'Banana blended with peanut butter','https://images.pexels.com/photos/4099235/pexels-photo-4099235.jpeg')" style="background-image:url('https://images.pexels.com/photos/4099235/pexels-photo-4099235.jpeg')">
+<div><b>Peanut Butter Banana Bowl</b><br>420 kcal</div>
+</a>
+
+<a class="card" onclick="openProduct('Chocolate Protein Bowl',390,20,40,12,'Chocolate smoothie with protein','https://images.pexels.com/photos/6823297/pexels-photo-6823297.jpeg')" style="background-image:url('https://images.pexels.com/photos/6823297/pexels-photo-6823297.jpeg')">
+<div><b>Chocolate Protein Bowl</b><br>390 kcal</div>
+</a>
+
+<a class="card" onclick="openProduct('Indian Masala Rice Bowl',480,14,65,14,'Jeera rice with paneer & vegetables','https://images.pexels.com/photos/6413433/pexels-photo-6413433.jpeg')" style="background-image:url('https://images.pexels.com/photos/6413433/pexels-photo-6413433.jpeg')">
+<div><b>Indian Masala Rice Bowl</b><br>480 kcal</div>
+</a>
+
+<a class="card" onclick="openProduct('Mediterranean Falafel Bowl',520,16,60,18,'Rice with falafel hummus & veggies','https://images.pexels.com/photos/27254878/pexels-photo-27254878.jpeg')" style="background-image:url('https://images.pexels.com/photos/27254878/pexels-photo-27254878.jpeg')"> 
+<div><b>Mediterranean Falafel Bowl</b><br>520 kcal</div> 
+</a>
+
+<a class="card" onclick="openProduct('Thai Peanut Rice Bowl',540,15,62,20,'Rice bowl with peanut sauce','https://images.pexels.com/photos/6632286/pexels-photo-6632286.jpeg')" style="background-image:url('https://images.pexels.com/photos/6632286/pexels-photo-6632286.jpeg')"> 
+<div><b>Thai Peanut Rice Bowl</b><br>540 kcal</div>
+</a>
+
+<a class="card" onclick="openProduct('Korean Bibimbap Bowl',560,18,70,16,'Rice with vegetables tofu egg','https://images.pexels.com/photos/12153467/pexels-photo-12153467.jpeg')" style="background-image:url('https://images.pexels.com/photos/12153467/pexels-photo-12153467.jpeg')"> 
+<div><b>Korean Bibimbap Bowl</b><br>560 kcal</div> 
+</a> 
+
+<a class="card" onclick="openProduct('Teriyaki Chicken Rice Bowl',620,28,65,18,'Grilled chicken with teriyaki sauce','https://images.pexels.com/photos/12973148/pexels-photo-12973148.jpeg')" style="background-image:url('https://images.pexels.com/photos/12973148/pexels-photo-12973148.jpeg')"> 
+<div><b>Teriyaki Chicken Bowl</b><br>620 kcal</div> 
+</a>
+
+<a class="card" onclick="openProduct('Greek Yogurt Honey Bowl',260,14,28,8,'Greek yogurt with honey','https://images.pexels.com/photos/19658858/pexels-photo-19658858.jpeg')" style="background-image:url('https://images.pexels.com/photos/19658858/pexels-photo-19658858.jpeg')"> 
+<div><b>Greek Yogurt Honey</b><br>260 kcal</div> 
+</a>
+
+<a class="card" onclick="openProduct('Fruit Granola Yogurt Bowl',320,12,42,10,'Yogurt with fruits & granola','https://images.pexels.com/photos/2835751/pexels-photo-2835751.jpeg')" style="background-image:url('https://images.pexels.com/photos/2835751/pexels-photo-2835751.jpeg')"> 
+<div><b>Fruit Granola Yogurt</b><br>320 kcal</div> 
+</a>
+</section>
+
+<section id="productView">
+<button onclick="showHome()">Back</button>
+<div class="product-box">
+<img id="pImg">
+<div>
+
+<h2 id="pName"></h2>
+<p><b>Calories:</b> <span id="pCal"></span></p>
+<p><b>Protein:</b> <span id="pProtein"></span></p>
+<p><b>Carbs:</b> <span id="pCarbs"></span></p>
+<p><b>Fats:</b> <span id="pFats"></span></p>
+
+<p id="pDesc"></p>
+
+<div class="qty-control">
+<button class="qty-btn" onclick="changeQty(-1)">−</button>
+<span class="qty-num" id="qtyDisplay">1</span>
+<button class="qty-btn" onclick="changeQty(1)">+</button>
+</div>
+
+<button onclick="addToCart()">Add to Cart</button>
+
+</div>
+</div>
+</section>
+
+<div id="cart" class="section">
+<h2>Your Cart</h2>
+<div id="cartItems"></div>
+<button onclick="goToCheckout()">Checkout</button>
+</div>
+
+<div id="checkout" class="section">
+
+<h2>Checkout</h2>
+
+<input type="text" id="custName" placeholder="Full Name">
+<input type="text" id="custPhone" placeholder="Phone Number">
+<textarea id="custAddress" placeholder="Delivery Address"></textarea>
+
+<h3>Payment Method</h3>
+
+<label>
+<input type="radio" name="payment" value="Cash on Delivery" checked>
+Cash on Delivery
+</label>
+
+<label>
+<input type="radio" name="payment" value="UPI">
+UPI
+</label>
+
+<label>
+<input type="radio" name="payment" value="Card">
+Credit / Debit Card
+</label>
+
+<button onclick="placeOrder()">Place Order</button>
+
+</div>
+
+<div id="contact" class="section">
+<h2>Contact Us</h2>
+<p>Email: vitalbowl@email.com</p>
+<p>Phone: +91 9876543210</p>
+<p>Address: Mumbai, India</p>
+<button onclick="showHome()">Back to Shop</button>
+</div>
+
+<!-- FEEDBACK BAR -->
+<div class="feedback">
+<p>Rate Us</p>
+<button onclick="ratePage('Like')">👍</button>
+<button onclick="ratePage('Love')">❤️</button>
+<button onclick="ratePage('Dislike')">👎</button>
+</div>
+
+<!-- ORDER SUCCESS POPUP -->
+<div class="overlay-popup" id="orderPopup">
+<div class="popup-box">
+<h2>Order Placed Successfully 🎉</h2>
+<p id="orderPayment"></p>
+<button onclick="closeOrderPopup()">Close</button>
+</div>
+</div>
+
+<!-- VALIDATION POPUP -->
+<div class="overlay-popup" id="validationPopup">
+<div class="popup-box">
+<h2>⚠️ Missing Details</h2>
+<p>Please fill in all fields before placing your order.</p>
+<button onclick="document.getElementById('validationPopup').style.display='none'">OK</button>
+</div>
+</div>
+
+<!-- ADD TO CART POPUP -->
+<div class="overlay-popup" id="cartPopup">
+<div class="popup-box">
+<h2>Added to Cart 🛒</h2>
+<p id="cartPopupMsg"></p>
+<button onclick="document.getElementById('cartPopup').style.display='none'">OK</button>
+</div>
+</div>
+
+<!-- RATE POPUP -->
+<div class="overlay-popup" id="ratePopup">
+<div class="popup-box">
+<h2>Thank You! 😊</h2>
+<p id="ratePopupMsg"></p>
+<button onclick="document.getElementById('ratePopup').style.display='none'">OK</button>
+</div>
+</div>
+
+<script>
+
+let currentProduct={}
+let currentQty=1
+let cart=[]
+
+const home=document.getElementById("home")
+const productView=document.getElementById("productView")
+const cartDiv=document.getElementById("cart")
+const checkout=document.getElementById("checkout")
+const contact=document.getElementById("contact")
+
+function openProduct(name,cal,protein,carbs,fats,desc,img){
+currentProduct={name,cal}
+currentQty=1
+document.getElementById("qtyDisplay").innerText=1
+pName.innerText=name
+pCal.innerText=cal+" kcal"
+pProtein.innerText=protein+" g"
+pCarbs.innerText=carbs+" g"
+pFats.innerText=fats+" g"
+pDesc.innerText=desc
+pImg.src=img
+home.style.display="none"
+productView.style.display="block"
+}
+
+function changeQty(delta){
+currentQty=Math.max(1,currentQty+delta)
+document.getElementById("qtyDisplay").innerText=currentQty
+}
+
+function showHome(){
+productView.style.display="none"
+cartDiv.style.display="none"
+checkout.style.display="none"
+contact.style.display="none"
+home.style.display="flex"
+}
+
+function addToCart(){
+const existing=cart.find(i=>i.name===currentProduct.name)
+if(existing){
+existing.qty+=currentQty
+}else{
+cart.push({...currentProduct,qty:currentQty})
+}
+document.getElementById("cartPopupMsg").innerText=`${currentQty} × ${currentProduct.name} added to your cart!`
+document.getElementById("cartPopup").style.display="flex"
+}
+
+function toggleCart(){
+home.style.display="none"
+productView.style.display="none"
+contact.style.display="none"
+cartDiv.style.display="block"
+let html=""
+cart.forEach(i=>{
+html+=`<p>${i.qty} × ${i.name} — ${i.cal} kcal each</p>`
+})
+if(cart.length===0) html="<p>Your cart is empty.</p>"
+cartItems.innerHTML=html
+}
+
+function goToCheckout(){
+cartDiv.style.display="none"
+checkout.style.display="block"
+}
+
+function placeOrder(){
+let name=custName.value
+let phone=custPhone.value
+let address=custAddress.value
+let payment=document.querySelector('input[name="payment"]:checked').value
+if(name==""||phone==""||address==""){
+document.getElementById("validationPopup").style.display="flex"
+return
+}
+document.getElementById("orderPayment").innerText="Payment Method: "+payment
+document.getElementById("orderPopup").style.display="flex"
+cart=[]
+}
+
+function closeOrderPopup(){
+document.getElementById("orderPopup").style.display="none"
+showHome()
+}
+
+function showContact(){
+home.style.display="none"
+productView.style.display="none"
+cartDiv.style.display="none"
+checkout.style.display="none"
+contact.style.display="block"
+}
+
+function ratePage(type){
+document.getElementById("ratePopupMsg").innerText="Thanks for your feedback: "+type
+document.getElementById("ratePopup").style.display="flex"
+}
+
+</script>
+</body>
+</html>
